@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bestellen – koeln-barf.de</title>
+<meta name="description" content="BARF-Menüs für Ihren Hund bestellen – einfach Formular ausfüllen, Ihr Mailprogramm öffnet sich automatisch mit der fertigen Bestellung.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand">
+      <img src="assets/logo-barf.png" alt="BARF Logo">
+      <div>
+        <div class="brand-name">koeln-barf.de</div>
+        <div class="brand-sub">Worringer BARF-Shop</div>
+      </div>
+    </div>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="index.html">Start</a></li>
+        <li><a href="oeffnungszeiten.html">Öffnungszeiten</a></li>
+        <li><a href="bestellen.html" class="active">Bestellen</a></li>
+        <li><a href="qualifikationen.html">Qualifikationen</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero">
+    <h1>BARF-Menü bestellen</h1>
+    <p class="lead">Wählen Sie Ihr Wunschmenü und die Menge – wir bereiten es frisch für Sie vor. Formular ausfüllen und absenden öffnet Ihr E-Mail-Programm mit einer vorausgefüllten Bestellung an uns.</p>
+  </section>
+
+  <div class="panel">
+    <h2>Aktuelle Menüs &amp; Preise</h2>
+    <div data-menu-widget="full"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Bestellformular</h2>
+    <p style="color: var(--text-muted); font-size: 0.9rem;">
+      Aktuell geöffnet? <span data-hours-widget="compact"></span>
+    </p>
+
+    <form class="order-form" id="bestellformular">
+      <label for="name">Name <span class="required">*</span></label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="telefon">Telefonnummer <span class="required">*</span></label>
+      <input type="tel" id="telefon" name="telefon" required>
+
+      <label for="email">E-Mail <span class="required">*</span></label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="menue">Gewünschtes Menü</label>
+      <select id="menue" name="menue">
+        <option value="RIND-Menü">RIND-Menü</option>
+        <option value="GEFLÜGEL-Menü">GEFLÜGEL-Menü</option>
+        <option value="POWERMIX-Menü">POWERMIX-Menü</option>
+        <option value="WELPEN-Rind-Menü">WELPEN-Rind-Menü</option>
+        <option value="RIND/FISCH-Menü">RIND/FISCH-Menü</option>
+        <option value="Sonstiges / siehe Nachricht">Sonstiges / siehe Nachricht</option>
+      </select>
+
+      <label for="menge">Wunschmenge (z.&nbsp;B. in kg)</label>
+      <input type="text" id="menge" name="menge" placeholder="z.B. 5 kg">
+
+      <label for="abholtermin">Wunschtermin zur Abholung</label>
+      <input type="text" id="abholtermin" name="abholtermin" placeholder="z.B. nächsten Donnerstag">
+
+      <label for="nachricht">Nachricht / Besonderheiten</label>
+      <textarea id="nachricht" name="nachricht" placeholder="z.B. Unverträglichkeiten, Wünsche, Fragen..."></textarea>
+
+      <div class="cta-row" style="justify-content: flex-start; margin-top: 22px;">
+        <button type="submit" class="btn btn-primary">Bestellung per E-Mail senden</button>
+      </div>
+      <p class="note" id="form-hint">Beim Absenden öffnet sich Ihr E-Mail-Programm mit einer fertigen Nachricht an kontakt@koeln-barf.de – Sie können sie dort noch prüfen und dann ganz normal versenden.</p>
+    </form>
+  </div>
+
+  <div class="panel">
+    <h2>Lieber telefonisch bestellen?</h2>
+    <p>Rufen Sie uns gerne an: <strong>0221 53957517</strong> – am besten während unserer <a href="oeffnungszeiten.html">Öffnungszeiten</a>.</p>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Worringer BARF-Shop &middot; Thorsten Ahrweiler &middot; Alte Neusser Landstr. 203a, 50769 Köln</p>
+    <p><a href="kontakt.html">Kontakt &amp; Impressum</a></p>
+  </div>
+</footer>
+
+<script src="assets/data.js"></script>
+<script>
+  document.getElementById("bestellformular").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const f = e.target;
+    const name = f.name.value.trim();
+    const telefon = f.telefon.value.trim();
+    const email = f.email.value.trim();
+    const menue = f.menue.value;
+    const menge = f.menge.value.trim();
+    const abholtermin = f.abholtermin.value.trim();
+    const nachricht = f.nachricht.value.trim();
+
+    const subject = "BARF-Bestellung von " + name;
+    const bodyLines = [
+      "Neue Bestellung über koeln-barf.de:",
+      "",
+      "Name: " + name,
+      "Telefon: " + telefon,
+      "E-Mail: " + email,
+      "Gewünschtes Menü: " + menue,
+      "Wunschmenge: " + (menge || "-"),
+      "Wunschtermin: " + (abholtermin || "-"),
+      "Nachricht: " + (nachricht || "-"),
+    ];
+    const body = bodyLines.join("\n");
+
+    const mailto = "mailto:kontakt@koeln-barf.de"
+      + "?subject=" + encodeURIComponent(subject)
+      + "&body=" + encodeURIComponent(body);
+
+    window.location.href = mailto;
+  });
+</script>
+</body>
+</html>
